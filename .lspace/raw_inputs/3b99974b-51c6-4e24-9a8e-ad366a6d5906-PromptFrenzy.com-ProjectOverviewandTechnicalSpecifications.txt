@@ -1,0 +1,157 @@
+# PromptFrenzy.com - Project Overview
+
+## Project Summary
+PromptFrenzy.com is a Hacker News/Reddit-style community platform designed for sharing and discovering AI prompts. Users can submit, vote on, and discover the most popular AI prompts across different applications and timeframes.
+
+## Core Features
+
+### User Experience
+- **Prompt Submission**: Users can submit text-based prompts with optional images
+- **Voting System**: Upvote/downvote functionality for community-driven ranking
+- **Discovery Feed**: Main page displays most popular prompts with intelligent filtering
+- **Easy Sharing**: One-click copy button for seamless prompt sharing
+- **Authentication**: Secure user login and registration via Supabase
+
+### Filtering & Organization
+- **Time-based Filters**: 
+  - Default: Last 7 days
+  - Options: 24 hours, 7 days, custom ranges
+- **Application-specific Filtering**: Filter prompts by AI platform
+- **Visual Categories**: Pill/badge system for easy identification
+
+### Application Categories
+1. **ChatGPT** - OpenAI's conversational AI
+2. **DALL-E** - OpenAI's image generation
+3. **Claude** - Anthropic's AI assistant
+4. **Midjourney** - Popular image generation platform
+5. **Gemini** - Google's AI model
+6. **Stable Diffusion** - Open-source image generation
+
+## Technology Stack
+
+### Frontend
+- **Platform**: v0 (Vercel's AI-powered React/Next.js generator)
+- **Framework**: Next.js with React
+- **Styling**: Tailwind CSS (v0 default)
+- **Hosting**: Vercel
+
+### Backend & Database
+- **Backend**: Supabase
+- **Database**: PostgreSQL (via Supabase)
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage (for optional images)
+
+## Database Schema
+
+### Core Tables
+
+#### Users
+- Handled by Supabase Auth
+- Additional profile fields as needed
+
+#### Prompts
+```sql
+- id (uuid, primary key)
+- user_id (uuid, foreign key to auth.users)
+- title (text)
+- content (text)
+- image_url (text, optional)
+- application_type (enum: chatgpt, dalle, claude, midjourney, gemini, stable_diffusion)
+- created_at (timestamp)
+- updated_at (timestamp)
+```
+
+#### Votes
+```sql
+- id (uuid, primary key)
+- user_id (uuid, foreign key to auth.users)
+- prompt_id (uuid, foreign key to prompts)
+- vote_type (enum: upvote, downvote)
+- created_at (timestamp)
+```
+
+#### Vote Aggregation (View or Computed)
+```sql
+- prompt_id (uuid)
+- total_votes (integer)
+- upvotes (integer)
+- downvotes (integer)
+- score (integer, calculated)
+```
+
+## Key User Flows
+
+### 1. Browse & Discover
+1. User visits homepage
+2. Views popular prompts (default: last 7 days)
+3. Applies filters (time range, application type)
+4. Clicks copy button to use prompt
+
+### 2. Submit Prompt
+1. User authenticates via Supabase
+2. Fills out prompt form (title, content, application, optional image)
+3. Submits prompt to community
+4. Prompt appears for voting and discovery
+
+### 3. Engage with Community
+1. User votes on prompts (upvote/downvote)
+2. Filters content by preferences
+3. Discovers trending prompts across applications
+
+## Technical Considerations
+
+### Performance
+- Implement efficient voting aggregation
+- Use database indexes for filtering queries
+- Consider caching for popular content
+
+### Security
+- Row Level Security (RLS) policies in Supabase
+- Input validation and sanitization
+- Rate limiting for submissions and votes
+
+### Scalability
+- Horizontal scaling via Vercel
+- Database scaling via Supabase
+- CDN for image assets
+
+## Development Phases
+
+### Phase 1: MVP
+- Basic prompt submission and display
+- User authentication
+- Simple voting system
+- Time-based filtering
+
+### Phase 2: Enhanced Features
+- Application-specific filtering
+- Image upload support
+- Advanced search capabilities
+- User profiles
+
+### Phase 3: Community Features
+- Comments system (future consideration)
+- User reputation system
+- Advanced moderation tools
+- API for third-party integrations
+
+## Success Metrics
+- Daily/Monthly Active Users
+- Prompt submission rate
+- Engagement rate (votes per prompt)
+- Time spent on platform
+- Prompt copy/usage rate
+
+## Competitive Analysis
+- **Reddit**: Community voting, time-based filtering
+- **Hacker News**: Simple, clean interface, ranking algorithm
+- **Product Hunt**: Daily discovery, category filtering
+- **PromptBase**: Prompt marketplace (different model)
+
+## Next Steps
+1. Set up development environment
+2. Initialize v0 project structure
+3. Configure Supabase backend
+4. Implement core MVP features
+5. Test with beta users
+6. Launch and iterate based on feedback
